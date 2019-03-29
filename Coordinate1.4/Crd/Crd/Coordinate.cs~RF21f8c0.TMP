@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace crd
+{
+    public partial class Coordinate : Form
+    {
+        short sRtn, axis;
+        public UInt64 pclock;
+        // 定义前瞻缓存区内存区
+        GTN.mc.TCrdData[] crdData = new GTN.mc.TCrdData[200];
+        //long[] posTest= new long[2];
+        uint clk;//时钟参数
+        public Coordinate()
+        {
+            InitializeComponent();
+        }
+        private void Coordinate_Load(object sender, EventArgs e)
+        {
+            sRtn = GTN.mc.GTN_Open(0, 1);                           // 打开运动控制器
+            this.ComboBox_COORDINATE.SelectedIndex = 0;
+            this.ComboBox_FIFO.SelectedIndex = 0;
+            //sRtn = GTN.mc.GTN_Reset(1);                             // 复位运动控制器
+            //sRtn = GTN.mc.GTN_LoadConfig(1, "test.cfg");            // 下载控制器配置文件
+            //sRtn = GTN.mc.GTN_ClrSts(1, 1, 6);                      // 清除1~4轴的轴状态
+
+            //axis = Convert.ToInt16(this.ComboBox_COORDINATE.SelectedIndex + 1);
+
+            //for (short i = 1; i <= 8; ++i)
+            //{
+            //    sRtn = GTN.mc.GTN_AxisOn(1, i);                      // 使能运动轴
+            //}
+            //启动定时器刷新状态
+            timer1.Start();
+        }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            double[] prfPos = new double[5];
+            short run;
+            int segment;
+
+            sRtn = GTN.mc.GTN_GetPrfPos(1, 1, out prfPos[0], 5, out clk);       // 读1~5轴的规划位置
+            sRtn = GTN.mc.GTN_CrdStatus(1, 1, out run, out segment, 0);          // 读取坐标系运动状态
+
+            //X轴规划位置
+            this.label_PRFPOS_X.Text = Math.Round(prfPos[0], 1).ToString();
+            //Y轴规划位置
+            this.label_PRFPOS_Y.Text = Math.Round(prfPos[1], 1).ToString();
+            //Z轴规划位置
+            this.label_PRFPOS_Z.Text = Math.Round(prfPos[2], 1).ToString();
+            //A轴规划位置
+            this.label_PRFPOS_A.Text = Math.Round(prfPos[3], 1).ToString();
+            //C轴规划位置
+            this.label_PRFPOS_C.Text = Math.Round(prfPos[4], 1).ToString();
+            //坐标系运动状态
+            if (run == 1)
+                this.label_RUN_STATUS.Text = "运动";
+            else if (run == 0)
+                this.label_RUN_STATUS.Text = "静止";
+            //坐标系段号
+            this.label_SEGMENT_STATUS.Text = segment.ToString();
+        }
+
+        private void button_INIT_Click(object sender, EventArgs e)
+        {
+            sRtn = GTN.mc.GTN_InitLookAhead(1, 1, 0, 5, 1, 200, ref crdData[0]);
+        }
+    }
+}

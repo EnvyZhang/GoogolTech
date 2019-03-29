@@ -1,0 +1,247 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace Crd
+{
+    public partial class Coordinate : Form
+    {
+        short sRtn, core, crd, fifo, dms, et, axis_x, axis_y, axis_z, axis_a, axis_c, plab;
+        double sVM, sAM, T, accMAX;
+        int ogp_x, ogp_y, ogp_z, ogp_a, ogp_c, space;
+        //public UInt64 pclock;
+        // 定义前瞻缓存区内存区
+        GTN.mc.TCrdData[] crdData = new GTN.mc.TCrdData[200];
+        //long[] posTest= new long[2];
+        uint clk;//时钟参数
+        public Coordinate()
+        {
+            InitializeComponent();
+        }
+        private void Coordinate_Load(object sender, EventArgs e)//窗口初始化
+        {            
+            //默认文本显示
+            this.ComboBox_CORENUM.SelectedIndex = 0;                
+            this.ComboBox_COORDINATE.SelectedIndex = 0;
+            this.ComboBox_FIFO.SelectedIndex = 0;
+            this.ComboBox_DIMENSION.SelectedIndex = 2;
+            this.ComboBox_AXIS_X.SelectedIndex = 1;
+            this.ComboBox_AXIS_Y.SelectedIndex = 2;
+            this.ComboBox_AXIS_Z.SelectedIndex = 3;
+            this.ComboBox_AXIS_A.SelectedIndex = 0;
+            this.ComboBox_AXIS_C.SelectedIndex = 0;
+            this.comboBox_DATATYPE.SelectedIndex = 0;
+            //文本框状态
+            textBox_ORIGINPOS_X.Enabled = false;
+            textBox_ORIGINPOS_Y.Enabled = false;
+            textBox_ORIGINPOS_Z.Enabled = false;
+            textBox_ORIGINPOS_A.Enabled = false;
+            textBox_ORIGINPOS_C.Enabled = false;
+            //初始化控制卡
+            sRtn = GTN.mc.GTN_Open(0, 1);                           // 打开运动控制器
+            sRtn = GTN.mc.GTN_Reset(1);                             // 复位运动控制器
+            sRtn = GTN.mc.GTN_LoadConfig(1, "test.cfg");            // 下载控制器配置文件
+            sRtn = GTN.mc.GTN_ClrSts(1, 1, 5);                      // 清除1~4轴的轴状态
+
+            //axis = Convert.ToInt16(this.ComboBox_COORDINATE.SelectedIndex + 1);
+
+            for (short i = 1; i <= 5; ++i)
+            {
+                sRtn = GTN.mc.GTN_AxisOn(1, i);                      // 使能运动轴
+            }
+            //启动定时器刷新状态
+            timer1.Start();
+        }
+        private void timer1_Tick(object sender, EventArgs e)//设置定时器读取状态
+        {
+            double[] prfPos = new double[5];
+            short run;
+            int segment;
+            //读取数据
+            core = Convert.ToInt16(this.ComboBox_CORENUM.SelectedIndex + 1);
+            crd = Convert.ToInt16(this.ComboBox_COORDINATE.SelectedIndex + 1);
+            fifo = Convert.ToInt16(this.ComboBox_FIFO.SelectedIndex);
+            
+            sRtn = GTN.mc.GTN_GetPrfPos(core, 1, out prfPos[0], 5, out clk);       // 读1~5轴的规划位置
+            sRtn = GTN.mc.GTN_CrdStatus(core, crd, out run, out segment, fifo);       // 读取坐标系运动状态
+            sRtn = GTN.mc.GTN_CrdSpace(core, crd, out space, fifo);                   // 查询运动缓存区空间
+            //X~C轴规划位置
+            this.label_PRFPOS_X.Text = Math.Round(prfPos[0], 1).ToString();
+            //Y轴规划位置
+            this.label_PRFPOS_Y.Text = Math.Round(prfPos[1], 1).ToString();
+            //Z轴规划位置
+            this.label_PRFPOS_Z.Text = Math.Round(prfPos[2], 1).ToString();
+            //A轴规划位置
+            this.label_PRFPOS_A.Text = Math.Round(prfPos[3], 1).ToString();
+            //C轴规划位置
+            this.label_PRFPOS_C.Text = Math.Round(prfPos[4], 1).ToString();
+            //坐标系运动状态
+            if (run == 1)
+                this.label_RUN_STATUS.Text = "运动";
+            else if (run == 0)
+                this.label_RUN_STATUS.Text = "静止";
+            //插补空间
+            this.label_CRD_SPACE.Text = space.ToString();
+            //坐标系段号
+            this.label_SEGMENT_STATUS.Text = segment.ToString();
+        }
+        private void button_INIT_Click(object sender, EventArgs e)//建立坐标系
+        {
+            //读取数据
+            core = Convert.ToInt16(this.ComboBox_CORENUM.SelectedIndex + 1);
+            crd = Convert.ToInt16(this.ComboBox_COORDINATE.SelectedIndex + 1);
+            fifo = Convert.ToInt16(this.ComboBox_FIFO.SelectedIndex);
+            dms = Convert.ToInt16(this.ComboBox_DIMENSION.SelectedIndex + 1);
+            sVM = Convert.ToDouble(this.TextBox_SYNVELMAX.Text);
+            sAM = Convert.ToDouble(this.TextBox_SYNACCMAX.Text);
+            et = Convert.ToInt16(this.TextBox_EVENTIME.Text);
+            
+            axis_x = Convert.ToInt16(this.ComboBox_AXIS_X.SelectedIndex + 1);
+            axis_y = Convert.ToInt16(this.ComboBox_AXIS_X.SelectedIndex + 1);
+            axis_z = Convert.ToInt16(this.ComboBox_AXIS_X.SelectedIndex + 1);
+            axis_a = Convert.ToInt16(this.ComboBox_AXIS_X.SelectedIndex + 1);
+            axis_c = Convert.ToInt16(this.ComboBox_AXIS_X.SelectedIndex + 1);
+
+            ogp_x = Convert.ToInt32(this.textBox_ORIGINPOS_X.Text);
+            ogp_y = Convert.ToInt32(this.textBox_ORIGINPOS_Y.Text);
+            ogp_z = Convert.ToInt32(this.textBox_ORIGINPOS_Z.Text);
+            ogp_a = Convert.ToInt32(this.textBox_ORIGINPOS_A.Text);
+            ogp_c = Convert.ToInt32(this.textBox_ORIGINPOS_C.Text);
+            // TCrdPrm结构体变量，该结构体定义了坐标系
+            GTN.mc.TCrdPrm crdPrm;
+            // 为结构体赋值
+            crdPrm.dimension = dms; // 坐标系为三维坐标系
+            crdPrm.synVelMax = sVM; // 最大合成速度：500pulse/ms
+            crdPrm.synAccMax = sAM; // 最大加速度：2pulse/ms^2
+            crdPrm.evenTime = et; // 最小匀速时间：50ms
+            crdPrm.profile1 = axis_x; // 规划器1对应到X轴
+            crdPrm.profile2 = axis_y; // 规划器2对应到Y轴
+            crdPrm.profile3 = axis_z; // 规划器3对应到Z轴
+            crdPrm.profile4 = axis_a;
+            crdPrm.profile5 = axis_c;
+            crdPrm.profile6 = 0;
+            crdPrm.profile7 = 0;
+            crdPrm.profile8 = 0;
+            crdPrm.setOriginFlag = crd; // 表示需要指定坐标系的原点坐标的规划位置
+            crdPrm.originPos1 = ogp_x; // 加工坐标系原点位置在(0,0,0)，即与机床坐标系原点重合
+            crdPrm.originPos2 = ogp_y;
+            crdPrm.originPos3 = ogp_z;
+            crdPrm.originPos4 = ogp_a;
+            crdPrm.originPos5 = ogp_c;
+            crdPrm.originPos6 = 0;
+            crdPrm.originPos7 = 0;
+            crdPrm.originPos8 = 0;
+            // 建立1号坐标系，设置坐标系参数
+            sRtn = GTN.mc.GTN_SetCrdPrm(core, crd, ref crdPrm);
+            // 即将把数据存入坐标系1的FIFO0中，所以要首先清除此缓存区中的数据
+            sRtn = GTN.mc.GTN_CrdClear(core, crd, fifo);
+        }
+        private void checkBox_ORIGINCRD_CheckedChanged(object sender, EventArgs e)//坐标系开启
+        {
+            if (checkBox_ORIGINCRD.Checked)
+            {
+                textBox_ORIGINPOS_X.Enabled = true;
+                textBox_ORIGINPOS_Y.Enabled = true;
+                textBox_ORIGINPOS_Z.Enabled = true;
+                textBox_ORIGINPOS_A.Enabled = true;
+                textBox_ORIGINPOS_C.Enabled = true;
+            }
+            else
+            {
+                textBox_ORIGINPOS_X.Enabled = false;
+                textBox_ORIGINPOS_Y.Enabled = false;
+                textBox_ORIGINPOS_Z.Enabled = false;
+                textBox_ORIGINPOS_A.Enabled = false;
+                textBox_ORIGINPOS_C.Enabled = false;
+            }
+        }
+        private void checkBox_LOOKAHEAD_CheckedChanged(object sender, EventArgs e)//前瞻开启
+        {
+            if (checkBox_LOOKAHEAD.Checked)
+            {
+                crd = Convert.ToInt16(this.ComboBox_COORDINATE.SelectedIndex + 1);
+                fifo = Convert.ToInt16(this.ComboBox_FIFO.SelectedIndex);
+                T = Convert.ToDouble(this.textBox_T.Text);
+                accMAX = Convert.ToDouble(this.textBox_ACCMAX.Text);
+                plab = Convert.ToInt16(this.textBox_PLOOKAHEADBUF.Text);
+                // 初始化坐标系1的FIFO0的前瞻模块
+                sRtn = GTN.mc.GT_InitLookAhead(crd, fifo, T, accMAX, plab, ref crdData[0]);
+            }
+            else
+            {
+
+            }
+        }
+        private void button_START_Click(object sender, EventArgs e)//启动坐标系1的FIFO0的插补运动
+        {
+            fifo = Convert.ToInt16(this.ComboBox_FIFO.SelectedIndex);
+            sRtn = GTN.mc.GTN_CrdStart(1, 1, fifo);                
+        }
+        private void button_STOP_Click(object sender, EventArgs e)//停止运动1~5轴
+        {
+            for (int i = 1; i <= 5; ++i)
+            sRtn = GTN.mc.GTN_Stop(1, 1 << (i - 1), 1);      
+        }
+
+        private void button_ADD_Click(object sender, EventArgs e)
+        {
+            //实例化Label控件
+            //dataGridView.Columns.RemoveAt(0);
+            switch(comboBox_DATATYPE.SelectedItem.ToString())
+            {                  
+            case"LnXY":
+                dataGridView.Columns[0].HeaderCell.Value = "CrdID";//设置列标题值
+                dataGridView.Columns[1].HeaderCell.Value = "X";
+                dataGridView.Columns[2].HeaderCell.Value = "Y";
+                dataGridView.Columns[3].HeaderCell.Value = "synVel";
+                dataGridView.Columns[4].HeaderCell.Value = "synAcc";
+                dataGridView.Columns[5].HeaderCell.Value = "velEnd";
+                dataGridView.Columns[6].HeaderCell.Value = "段号";
+                dataGridView.Rows.Add("LnXY", "0.000", "0.000", "0.000", "0.000", "0.000","0");//添加行值
+                break;
+             case"LnXYG0":
+                dataGridView.Columns[0].HeaderCell.Value = "CrdID";
+                dataGridView.Columns[1].HeaderCell.Value = "X";
+                dataGridView.Columns[2].HeaderCell.Value = "Y";
+                dataGridView.Columns[3].HeaderCell.Value = "synVel";
+                dataGridView.Columns[4].HeaderCell.Value = "synAcc";
+                dataGridView.Columns[5].HeaderCell.Value = "段号";
+                dataGridView.Columns[6].HeaderCell.Value = "段号";
+                dataGridView.Rows.Add("LnXYG0", "0.000", "0.000", "0.000","0.000","0");//添加行值
+                break;
+             case "LnXYZ":
+                dataGridView.Columns[0].HeaderCell.Value = "CrdID";
+                dataGridView.Columns[1].HeaderCell.Value = "X";
+                dataGridView.Columns[2].HeaderCell.Value = "Y";
+                dataGridView.Columns[3].HeaderCell.Value = "Z";
+                dataGridView.Columns[4].HeaderCell.Value = "synVel";
+                dataGridView.Columns[5].HeaderCell.Value = "synAcc";
+                dataGridView.Columns[6].HeaderCell.Value = "velEnd";
+                dataGridView.Columns[7].HeaderCell.Value = "段号";
+                dataGridView.Rows.Add("LnXY", "0.000", "0.000", "0.000", "0.000", "0.000", "0.000","0");//添加行值
+                break;
+            }
+        }
+        private void button_DELECT_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(dataGridView.CurrentCell.Value.ToString());
+        }
+
+        private void dataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            //显示在HeaderCell上
+            for (int i = 0; i < this.dataGridView.Rows.Count; i++)
+            {
+                DataGridViewRow r = this.dataGridView.Rows[i];
+                r.HeaderCell.Value = string.Format("{0}", i + 1);
+            }
+            this.dataGridView.Refresh();
+        }
+
+    }
+}

@@ -1,0 +1,50 @@
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\obj\Debug\Crd.Coordinate.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\obj\Debug\Crd.Properties.Resources.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\obj\Debug\Crd.csproj.GenerateResource.Cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\bin\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\bin\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\obj\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\obj\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.0\Crd\Crd\obj\Debug\Crd.csprojResolveAssemblyReference.cache
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\obj\Debug\Crd.exe
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\obj\Debug\Crd.pdb
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\bin\Debug\Crd.exe
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\bin\Debug\Crd.pdb
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\obj\Debug\Crd.Coordinate.resources
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\obj\Debug\Crd.Properties.Resources.resources
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\obj\Debug\Crd.csproj.GenerateResource.Cache
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.1\Crd\Crd\obj\Debug\Crd.csprojResolveAssemblyReference.cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\obj\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\obj\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\bin\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\bin\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\obj\Debug\Crd.csprojResolveAssemblyReference.cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\obj\Debug\Crd.Coordinate.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\obj\Debug\Crd.Properties.Resources.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.2\Crd\Crd\obj\Debug\Crd.csproj.GenerateResource.Cache
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\obj\Debug\Crd.exe
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\obj\Debug\Crd.pdb
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\bin\Debug\Crd.exe
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\bin\Debug\Crd.pdb
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\obj\Debug\Crd.csprojResolveAssemblyReference.cache
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\obj\Debug\Crd.Coordinate.resources
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\obj\Debug\Crd.Properties.Resources.resources
+F:\个人工作目录\zhang.jw\My GTN\Coordinate1.2\Crd\Crd\obj\Debug\Crd.csproj.GenerateResource.Cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\obj\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\obj\Debug\Crd.csprojResolveAssemblyReference.cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\obj\Debug\Crd.Coordinate.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\obj\Debug\Crd.Properties.Resources.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\obj\Debug\Crd.csproj.GenerateResource.Cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\bin\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\bin\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.3\Crd\Crd\obj\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.4\Crd\Crd\obj\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate1.4\Crd\Crd\obj\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\obj\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\obj\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\bin\Debug\Crd.exe
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\bin\Debug\Crd.pdb
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\obj\Debug\Crd.csprojResolveAssemblyReference.cache
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\obj\Debug\Crd.Coordinate.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\obj\Debug\Crd.Properties.Resources.resources
+C:\Users\googol\Desktop\Personal\C#\Coordinate\Coordinate1.4\Crd\Crd\obj\Debug\Crd.csproj.GenerateResource.Cache
