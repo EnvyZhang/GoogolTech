@@ -9,8 +9,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-short sRtn;
+#pragma comment(lib,"gts.lib")
 
 
 THomeStatus tHomeSts;
@@ -123,10 +122,10 @@ BOOL CTEXTDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	m_mode.InsertString(0,"占空比");
-	m_mode.InsertString(1,"频率");
-	m_mode.InsertString(2,"模拟量");
-	m_mode.InsertString(3,"频率&开光延时");
+	m_mode.InsertString(0,_T("占空比"));
+	m_mode.InsertString(1,_T("频率"));
+	m_mode.InsertString(2,_T("模拟量"));
+	m_mode.InsertString(3,_T("频率&开光延时"));
 	m_mode.SetCurSel(0);
 	m_chanel.SetCurSel(0);
 	
@@ -190,7 +189,7 @@ void commandhandler(char *command, short error)
 	switch(error)
 	{
 	case 0:break;
-	default:MessageBox(NULL,TEXT("打开板卡失败，可能原因：1.板卡没有插好；2.有其他的程序正在对板卡操作。"), TEXT("LaserTest"), MB_OK);break;
+	default:MessageBox(NULL,TEXT("打开板卡失败，可能原因：1.板卡没有插好；2.有其他的程序正在对板卡操作。"), TEXT("LaserDemo"), MB_OK);break;
 	}
 }
 
@@ -208,7 +207,7 @@ void CTEXTDlg::OnBnClickedButton1()
 	case 0:
 		if ((m_power<0)|( m_power>100))
 		{
-			MessageBox("占空比范围是0~100");
+			MessageBox(_T("占空比范围是0~100"));
 			return;
 		}
 		rtn = GT_LaserPowerMode(CardNum,0,100,0,LaserChanel);    //设置为占空比模式
@@ -219,7 +218,7 @@ void CTEXTDlg::OnBnClickedButton1()
 	case 1:
 		if ((m_power<0)|(m_power>96))
 		{
-			MessageBox("频率范围是0~96KHz");             //默认复位后为高分辨率24K，设置低分辨后可达到96K
+			MessageBox(_T("频率范围是0~96KHz"));             //默认复位后为高分辨率24K，设置低分辨后可达到96K
 			return;
 		}
 		rtn = GT_LaserPowerMode(CardNum,1,96,0,LaserChanel);     //设置为频率模式
@@ -230,7 +229,7 @@ void CTEXTDlg::OnBnClickedButton1()
 	case 2:
 		if ((m_power<0)|(m_power>10))
 		{
-			MessageBox("电压范围是0~10V");
+			MessageBox(_T("电压范围是0~10V"));
 			return;
 		}
 		rtn = GT_LaserPowerMode(CardNum,2,10,0,LaserChanel);     //设置为模拟量模式
@@ -240,7 +239,7 @@ void CTEXTDlg::OnBnClickedButton1()
 	case 3:
 		if ((m_power<0)|(m_power>96))
 		{
-			MessageBox("频率范围是0~96KHz");             //默认复位后为高分辨率24K，设置低分辨后可达到96K
+			MessageBox(_T("频率范围是0~96KHz"));             //默认复位后为高分辨率24K，设置低分辨后可达到96K
 			return;
 		}
 		rtn = GT_LaserPowerMode(CardNum,1,96,0,LaserChanel,1);     //设置为频率模式
@@ -255,9 +254,9 @@ void CTEXTDlg::OnBnClickedButton1()
 
 void CTEXTDlg::OnBnClickedButton6()
 {
+	short rtn;
 	// TODO: 在此添加控件通知处理程序代码
 	int CardNum = m_cardNum.GetCurSel();
-	short rtn;
 	rtn = GT_LoadConfig(CardNum,"GTS800.cfg");   //加载配置文件
 	rtn = GT_ClrSts(CardNum,1,2);      //清除各轴状态
 	rtn = GT_AxisOn(CardNum,1);
@@ -277,7 +276,7 @@ void CTEXTDlg::OnBnClickedButton6()
 	rtn = GT_SetCrdPrm(CardNum,1,&crdprm);
 	if (rtn!=0)
 	{
-		MessageBox("建立坐标系失败");
+		MessageBox(_T("建立坐标系失败"));
 	}
 	rtn = GT_CrdClear(CardNum,1,0);                 //清除坐标系1FIFO 0中的数据
 
@@ -316,10 +315,10 @@ void CTEXTDlg::OnBnClickedButton2()
 	rtn = GT_BufLaserFollowRatio(CardNum,1,0.1,0,10,0,LaserChanel);          //设置跟随比例为0.1          
 	rtn = GT_BufLaserOn(CardNum,1,0,LaserChanel);                            //打开缓存区激光
 	rtn = GT_LnXY(CardNum,1,0,20000,10,1,0,0);								 //压入第一段位置指令 
-	rtn = GT_LnXY(CardNum,1,20000,20000,10,1,0,0);                           //压入第二段位置指令 
-	rtn = GT_LnXY(CardNum,1,20000,0,10,1,0,0);								 //压入第三段位置指令  
-	rtn = GT_LnXY(CardNum,1,0,0,10,1,0,0);									//压入第四段位置指令
-	rtn = GT_LnXY(CardNum,1,40000,40000,10,1,0,0);							//压入第四段位置指令
+	//rtn = GT_LnXY(CardNum,1,20000,20000,10,1,0,0);                           //压入第二段位置指令 
+	//rtn = GT_LnXY(CardNum,1,20000,0,10,1,0,0);								 //压入第三段位置指令  
+	//rtn = GT_LnXY(CardNum,1,0,0,10,1,0,0);									//压入第四段位置指令
+	//rtn = GT_LnXY(CardNum,1,40000,40000,10,1,0,0);							//压入第四段位置指令
 	rtn = GT_BufLaserOff(CardNum,1,0,LaserChanel);                          //关闭激光
 	rtn = GT_CrdData(CardNum,1, NULL, 0);									//将前瞻缓存区中的数据压入控制器
 	rtn = GT_CrdStart(CardNum,1,0);                                         //启动插补运动
@@ -397,15 +396,15 @@ void CTEXTDlg::OnTimer(UINT_PTR nIDEvent)
 	rtn = GT_CrdStatus(CardNum,1,&run,&segment,0);         // 读取坐标系运动状态
 	if(run == 0)
 	{
-		strTemp.Format("静止");
+		strTemp.Format(_T("静止"));
 	}
 	else
 	{
-		strTemp.Format("运动");
+		strTemp.Format(_T("运动"));
 	}
 	SetDlgItemText(IDC_STATIC_CRD_STATUS, strTemp);
 
-	strTemp.Format("%ld",segment);
+	strTemp.Format(_T("%ld"),segment);
 	SetDlgItemText(IDC_STATIC_SEGMENT, strTemp);
 
 
@@ -432,6 +431,7 @@ void CTEXTDlg::OnBnClickedChecknewahead()
 	short rtn;
 	int i;
 	int CardNum = m_cardNum.GetCurSel();
+	CString strMsg;
 	//*****************************************************新前瞻标准使用方法*************************************************************
 	//初始化多轴前瞻模块
 	EMachineMode machineMode; //机床类型
@@ -463,4 +463,9 @@ void CTEXTDlg::OnBnClickedChecknewahead()
 	rtn = GT_CrdClear(CardNum,1,0);//即将把数据存入坐标系的 FIFO0 中，所以要首先清除此缓存区中的数据
 	rtn = GT_SetupLookAheadCrd(CardNum,1,machineMode);//建立前瞻1坐标系，并指定该坐标系的机床类型
 	rtn = GT_InitLookAheadEx(CardNum,1,&lookAheadPara,0);//初始化前瞻参数
+	if(rtn != 0)
+	{
+		strMsg.Format(_T("%d"),rtn);
+		MessageBox(_T("前瞻初始化错误：") + strMsg);
+	}
 }
