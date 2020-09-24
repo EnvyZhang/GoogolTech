@@ -1,0 +1,32 @@
+测试Ecat连接5个GTHD+一个4轴模块
+
+参见4轴模块手册，手轮的编码器在模块内1号轴（对应总线6号轴）的辅助编码器PDO传送，
+使用指令
+
+	rtn = GTN_RelateEcatSlaveToMcMpgEncoder(1,1,5);
+
+将轴索引5映射到控制器的1号MPG编码器
+初始化手轮
+
+	rtn =GTN_HandwheelInit(1,MC_MPG);
+启动手轮功能
+       主轴对应1号MPG编码器
+	rtn =GTN_StartHandwheel(1,2,1,1000,1000,5,10,10,200,100);
+	rtn =GTN_StartHandwheel(1,3,1,1000,2000,5,10,10,200,100);
+	rtn =GTN_StartHandwheel(1,4,1,1000,3000,5,10,10,200,100);
+	rtn =GTN_StartHandwheel(1,5,1,1000,4000,5,10,10,200,100);
+	
+手轮的DI同样需要映射到控制器的MC_MPG
+参见4轴模块手册，手轮的DI在模块内3号轴（对应总线8号轴）的DigitalIN（bit3-9）PDO传送，
+按手轮位设置映射关系。
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,1,7,3);
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,2,7,4);
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,3,7,5);
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,4,7,6);
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,5,7,7);
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,6,7,8);
+	rtn = GTN_RelateEcatSlaveToMcMpgDi(1,7,7,9);
+使用GTN_GetDi(MC_MPG )即可读取DI
+
+也可以使用指令
+GT_API GTN_ReadMpgInfo(short core,short mpg,TMpgInfo *pMpgInfo);读取手轮信息

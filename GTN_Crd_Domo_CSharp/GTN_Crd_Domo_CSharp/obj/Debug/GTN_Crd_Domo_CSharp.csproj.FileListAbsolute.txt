@@ -1,0 +1,35 @@
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.exe
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.pdb
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Form1.resources
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Properties.Resources.resources
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csproj.GenerateResource.Cache
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.exe
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.exe
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.exe
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Form1.resources
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Properties.Resources.resources
+F:\个人工作目录\zhang.jw\My GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csproj.GenerateResource.Cache
+C:\Users\googol\Desktop\GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.exe
+C:\Users\googol\Desktop\GTN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.pdb
+C:\Users\googol\Desktop\GTN\自编例程\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.exe
+C:\Users\googol\Desktop\GTN\自编例程\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.exe
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.exe
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csprojResolveAssemblyReference.cache
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Form1.resources
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Properties.Resources.resources
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csproj.GenerateResource.Cache
+C:\Users\googol\Desktop\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csprojResolveAssemblyReference.cache
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.exe
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.pdb
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.exe
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Debug\GTN_Crd_Domo_CSharp.pdb
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csprojResolveAssemblyReference.cache
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Form1.resources
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.Properties.Resources.resources
+C:\Users\googol\Desktop\Googol\Personal\自编例程\C#\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Debug\GTN_Crd_Domo_CSharp.csproj.GenerateResource.Cache

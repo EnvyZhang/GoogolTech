@@ -1,0 +1,46 @@
+
+// Crd_GSNDlg.h : header file
+//
+
+#pragma once
+#include "afxwin.h"
+
+
+// CCrd_GSNDlg dialog
+class CCrd_GSNDlg : public CDialogEx
+{
+// Construction
+public:
+	CCrd_GSNDlg(CWnd* pParent = NULL);	// standard constructor
+
+// Dialog Data
+	enum { IDD = IDD_CRD_GSN_DIALOG };
+
+	protected:
+	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
+
+
+// Implementation
+protected:
+	HICON m_hIcon;
+
+	// Generated message map functions
+	virtual BOOL OnInitDialog();
+	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+	afx_msg void OnPaint();
+	afx_msg HCURSOR OnQueryDragIcon();
+	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedButtonInitial();
+	afx_msg void OnBnClickedButtonInitialCoordinate();
+	afx_msg void OnBnClickedCheckOldahead();
+	afx_msg void OnBnClickedCheckNehead();
+	afx_msg void OnBnClickedButtonCrdstart();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedCheckPoscompare();
+	CButton m_CWatch;
+	afx_msg void OnBnClickedCheckWatch();
+	CButton m_CPosCompare;
+	CButton m_COldAhead;
+	CButton m_CNewAhead;
+};

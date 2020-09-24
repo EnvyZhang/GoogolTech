@@ -1,0 +1,13 @@
+EtherCAT: Googol Technology ECAT Master driver 1.0
+EtherCAT: 1 master waiting for devices.
+EtherCAT 0: 1 slave(s) responding.
+EtherCAT 0: Slave states: PREOP .
+EtherCAT 0: Scanning bus.
+EtherCAT 0: Bus scanning completed in 18 ms.
+Config INFO: Start Config 1 ECAT slave.
+EtherCAT 0: Config each slave SDO config info ...
+EtherCAT 0: Config each slave PDO sync info ...
+EtherCAT 0: Registering PDO entries...
+EtherCAT 0: Activating master...
+EtherCAT 0: All slaves are in OP mode
+EtherCAT 0: Slave states: OP .

@@ -1,0 +1,236 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace GTN_Crd_Domo_CSharp
+{
+    public partial class Form1 : Form
+    {
+        //声明返回值
+        public short rtn;
+
+        bool flag = false;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            COMBOBOX_AXISNUM.SelectedIndex = 0;
+            COMBOBOX_CORENUM.SelectedIndex = 0;
+            comboBox_count.SelectedIndex = 0;
+        }
+
+        private void BUTTON_INITIAL_Click(object sender, EventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            rtn = GTN.mc.GTN_Open(0, 1);
+            if (rtn != 0)
+            {
+                MessageBox.Show("开卡失败");
+            }
+            rtn = GTN.mc.GTN_Reset(core);
+            rtn = GTN.mc.GTN_Reset(core);
+            //for (short i = 1; i < 13; i++)
+            //{
+            //rtn = GTN.mc.GTN_LmtsOff(1, 1, i);
+            //rtn = GTN.mc.GTN_AlarmOff(1, 1);
+            //rtn = GTN.mc.GTN_LmtsOff(1, 2, i);
+            //rtn = GTN.mc.GTN_AlarmOff(1, 2);
+            //}
+            rtn = GTN.mc.GTN_LoadConfig(core, "gtn_core1.cfg");
+            if (rtn != 0)
+            {
+                MessageBox.Show("加载核1配置文件失败");
+            }
+
+            rtn = GTN.mc.GTN_LoadConfig(core, "gtn_core2.cfg");
+            if (rtn != 0)
+            {
+                MessageBox.Show("加载核2配置文件失败");
+            }
+
+            rtn = GTN.mc.GTN_ClrSts(core, axis, 12);
+            rtn = GTN.mc.GTN_ClrSts(core, axis, 12);
+            rtn = GTN.mc.GTN_ZeroPos(core, axis, 12);
+            rtn = GTN.mc.GTN_ZeroPos(core, axis, 12);
+        }
+
+
+
+        private void button_axisOnOff_Click(object sender, EventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            if(flag == false)
+            {
+                rtn = GTN.mc.GTN_AxisOn(core, axis);
+                this.button_axisOnOff.Text = "已使能";
+                flag = true;
+            }
+            else if(flag == true)
+            {
+                rtn = GTN.mc.GTN_AxisOff(core, axis);
+                this.button_axisOnOff.Text = "未使能";
+                flag = false;
+            }
+
+        }
+
+        private void BUTTON_CLOSE_Click(object sender, EventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            rtn = GTN.mc.GTN_Stop(core, 0xFFF, 0xFFF); 
+        }
+
+        private void BUTTON_PTP_Click(object sender, EventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            GTN.mc.TTrapPrm trap;
+
+            rtn = GTN.mc.GTN_PrfTrap(core, axis);
+            rtn = GTN.mc.GTN_GetTrapPrm(core, axis, out trap);
+            trap.acc = 0.5;
+            trap.dec = 0.5;
+            trap.smoothTime = 50;
+            rtn = GTN.mc.GTN_SetTrapPrm(core, axis, ref trap);
+            rtn = GTN.mc.GTN_SetVel(core, axis, 50);
+            rtn = GTN.mc.GTN_SetPos(core, axis, 100000);
+            rtn = GTN.mc.GTN_Update(core, 1 << (axis - 1));
+        }
+
+        private void BUTTON_HOME_Click(object sender, EventArgs e)
+        {
+            //程序演示了对第一个轴进行回原点的操作，用户可以同时完成多个轴的回原点操作。
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            GTN.mc.THomePrm homeprm;
+            rtn = GTN.mc.GTN_AxisOn(core, axis);
+            rtn = GTN.mc.GTN_GetHomePrm(core, axis, out homeprm);//获取当前轴的回原点的参数
+            homeprm.mode = 20;//home回原点模式
+            homeprm.moveDir = 1;//1：正方向，-1：负方向
+            homeprm.indexDir = 1;//1：正方向，-1：负方向
+            homeprm.edge = 0;//设置捕获沿：0-下降沿，1-上升沿
+            homeprm.velHigh = 5;
+            homeprm.velLow = 1;
+            homeprm.acc = 0.5;
+            homeprm.dec = 0.5;
+            homeprm.homeOffset = 0;//最终的停止位置相对于原点的偏移量
+            homeprm.searchHomeDistance = 0;//Home最大搜索距离，0表示不限制搜索距离
+            homeprm.searchIndexDistance = 30000;//Index最大搜索距离，0表示不限制搜索距离
+            homeprm.escapeStep = 0;//采用限位回原点时，反方向离开限位的脱离步长
+
+            rtn = GTN.mc.GTN_GoHome(core, axis, ref homeprm);//启动快速回原点
+        }
+
+        private void BUTTON_NJOG_MouseDown(object sender, MouseEventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            GTN.mc.TJogPrm jog;
+            rtn = GTN.mc.GTN_PrfJog(core, axis);
+            rtn = GTN.mc.GTN_GetJogPrm(core, axis, out jog);
+            jog.acc = 0.5;
+            jog.dec = 0.5;
+            // 设置 Jog 运动参数
+            rtn = GTN.mc.GTN_SetJogPrm(core, axis, ref jog);
+            rtn = GTN.mc.GTN_SetVel(core, axis, -200);
+            rtn = GTN.mc.GTN_Update(core, 1 << (axis - 1));
+        }
+
+        private void BUTTON_NJOG_MouseUp(object sender, MouseEventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            rtn = GTN.mc.GTN_Stop(core, 0xff, 0xff);
+        }
+
+        private void BUTTON_PJOG_MouseDown(object sender, MouseEventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            GTN.mc.TJogPrm jog;
+            rtn = GTN.mc.GTN_PrfJog(core, axis);
+            rtn = GTN.mc.GTN_GetJogPrm(core, axis, out jog);
+            jog.acc = 0.5;
+            jog.dec = 0.5;
+            // 设置 Jog 运动参数
+            rtn = GTN.mc.GTN_SetJogPrm(core, axis, ref jog);
+            rtn = GTN.mc.GTN_SetVel(core, axis, 200);
+            rtn = GTN.mc.GTN_Update(core, 1 << (axis - 1));
+        }
+        private void BUTTON_PJOG_MouseUp(object sender, MouseEventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            rtn = GTN.mc.GTN_Stop(core, 0xff, 0xff);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            UInt32 pClock;
+            double[] prfPos = new double[3];
+            double[] encPos = new double[3];
+            int[] sts = new int[6];
+
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+
+            rtn = GTN.mc.GTN_GetPrfPos(core, axis, out prfPos[0], 1, out pClock);       // 读1~3轴的规划位置
+            rtn = GTN.mc.GTN_GetEncPos(core, axis, out encPos[0], 1, out pClock);       // 读1~3轴的规划位置
+
+            this.textBox_PrfPos1.Text = Math.Round(prfPos[0], 1).ToString();
+            this.textBox_PrfPos2.Text = Math.Round(encPos[0], 1).ToString();
+        }
+
+        private void button_ADD_Click(object sender, EventArgs e)
+        {
+            dataGridView.Rows.Add("0.000", "0.000", "0.000", "0.000", "0.000", "0");//添加行值
+            dataGridView.ClearSelection(); //DataGridView取消默认选中行
+            dataGridView.Columns[0].ReadOnly = true;// 设置 DataGridView1 的第2列整列单元格为只读
+            dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);// 让dataGridView的所有列宽自动调整。
+        }
+
+        private void button_updata_Click(object sender, EventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            int count = Convert.ToInt16(comboBox_count.SelectedIndex + 1);
+
+            List<double> time_x = new List<double>();
+            List<double> pos_x = new List<double>();
+            List<double> percent_x = new List<double>();
+
+            //int rows = dataGridView.Rows.Count;//获取datagridview的总行数（不可见）
+            for (int i = 0; i < count; ++i)
+            {
+                time_x.Add(Convert.ToInt32(dataGridView.Rows[i].Cells[1].Value));
+            }
+           //time.add(conver.toInt32(textbox1.text));
+            // X轴的数据点参数
+            //double[] time_x = new double[7] { 0, 1000, 2000, 3000, 4000, 5000, 6000 };
+            //double[] pos_x = new double[7] { 0, 5000, 15000, 20000, 15000, 5000, 0 };
+            //double[] percent_x = new double[7] { 60, 0, 60, 60, 0, 60, 0 };
+
+            // 将X轴设置为PVT模式
+            rtn = GTN.mc.GTN_PrfPvt(core, axis);
+            // 向X轴的数据表发送数据
+            rtn = GTN.mc.GTN_PvtTablePercent(core, 1, count, ref time_x, ref pos_x[0], ref percent_x[0], 0);
+            // X轴选择数据表TABLE_X
+            rtn = GTN.mc.GTN_PvtTableSelect(core, axis, 1);
+        }
+
+        private void button_PVTStart_Click(object sender, EventArgs e)
+        {
+            short core = Convert.ToInt16(COMBOBOX_CORENUM.SelectedIndex + 1);
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.SelectedIndex + 1);
+            rtn = GTN.mc.GTN_PvtStart(core, 1 << (axis - 1));
+        }
+
+    }
+}

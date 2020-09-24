@@ -1,0 +1,213 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace GTN_Crd_Domo_CSharp
+{
+    public partial class Form1 : Form
+    {
+        //声明返回值
+        public short rtn;
+        //按下状态标识
+        private bool m_btnState = false;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            COMBOBOX_AXISNUM.SelectedIndex = 0;
+        }
+
+        private void BUTTON_INITIAL_Click(object sender, EventArgs e)
+        {
+
+            rtn = GTN.mc.GTN_Open(0, 1);
+            if (rtn != 0)
+            {
+                MessageBox.Show("开卡失败");
+            }
+            rtn = GTN.mc.GTN_Reset(1);
+            rtn = GTN.mc.GTN_Reset(2);
+            //for (short i = 1; i < 13; i++)
+            //{
+            //    rtn = GTN.mc.GTN_LmtsOff(1,i);
+            //    rtn = GTN.mc.GTN_AlarmOff(1, i);
+            //    rtn = GTN.mc.GTN_LmtsOff(2, i);
+            //    rtn = GTN.mc.GTN_AlarmOff(2, i);
+            //}
+            rtn = GTN.mc.GTN_LoadConfig(1, "gtn_core1.cfg");
+            if (rtn != 0)
+            {
+                MessageBox.Show("加载核1配置文件失败");
+            }
+
+            rtn = GTN.mc.GTN_LoadConfig(2, "gtn_core2.cfg");
+            if (rtn != 0)
+            {
+                MessageBox.Show("加载核2配置文件失败");
+            }
+
+            rtn = GTN.mc.GTN_ClrSts(1, 1, 12);
+            rtn = GTN.mc.GTN_ClrSts(2, 1, 12);
+        }
+
+        private void BUTTON_INITIAL_COORDINATE_Click(object sender, EventArgs e)
+        {
+            GTN.mc.TCrdPrm crdprm1;
+
+            crdprm1.dimension = 3;//坐标系的维数为4维
+            crdprm1.synVelMax = 500;//最大合成速度为500
+            crdprm1.synAccMax = 100;//最大合成加速度为100
+            crdprm1.evenTime = 10;//最小匀速时间为50ms
+            crdprm1.profile1 = 1;//规划器1对应X轴
+            crdprm1.profile2 = 2;//规划器2对应Y轴
+            crdprm1.profile3 = 3;//规划器3对应Z轴
+            crdprm1.profile4 = 0;//规划器2对应A轴
+            crdprm1.profile5 = 0;//规划器1对应X轴
+            crdprm1.profile6 = 0;//规划器2对应Y轴
+            crdprm1.profile7 = 0;//规划器3对应Z轴
+            crdprm1.profile8 = 0;//规划器2对应A轴
+            crdprm1.setOriginFlag = 1;//1表示需要用户指定坐标原点的规划位置
+            crdprm1.originPos1 = 0;//1轴的规划位置为0
+            crdprm1.originPos2 = 0;//2轴的规划位置为0
+            crdprm1.originPos3 = 0;//3轴的规划位置为0
+            crdprm1.originPos4 = 0;//2轴的规划位置为0
+            crdprm1.originPos5 = 0;//1轴的规划位置为0
+            crdprm1.originPos6 = 0;//2轴的规划位置为0
+            crdprm1.originPos7 = 0;//3轴的规划位置为0
+            crdprm1.originPos8 = 0;//2轴的规划位置为0
+
+            rtn = GTN.mc.GTN_SetCrdPrm(1, 1, ref crdprm1);//建立1号坐标系
+        }
+
+        private void BUTTON_LINEAR_MOTION_Click(object sender, EventArgs e)
+        {
+            int space;
+            rtn = GTN.mc.GTN_CrdClear(1, 1, 0);
+            // 向缓存区写入第一段插补数据
+            rtn = GTN.mc.GTN_LnXY(
+            1,
+            1, // 该插补段的坐标系是坐标系1
+            200000, 0, // 该插补段的终点坐标(200000, 0)
+            100, // 该插补段的目标速度：100pulse/ms
+            0.1, // 插补段的加速度：0.1pulse/ms^2
+            0, // 终点速度为0
+            0); // 向坐标系1的FIFO0缓存区传递该直线插补数据
+            // 向缓存区写入第二段插补数据
+            rtn = GTN.mc.GTN_LnXY(1, 1, 100000, 173205, 100, 0.1, 0, 0);
+            // 缓存区数字量输出
+            rtn = GTN.mc.GTN_BufIO(1, 1, GTN.mc.MC_GPO, 0xffff, 0x55, 0);
+            // 第三段插补数据
+            rtn = GTN.mc.GTN_LnXY(1, 1, -100000, 173205, 100, 0.1, 0, 0);
+            // 缓存区数字量输出
+            rtn = GTN.mc.GTN_BufIO(1, 1, GTN.mc.MC_GPO, 0xffff, 0xaa, 0);
+            // 第四段插补数据
+            rtn = GTN.mc.GTN_LnXY(1, 1, -200000, 0, 100, 0.1, 0, 0);
+            // 缓存区延时指令
+            rtn = GTN.mc.GTN_BufDelay(
+            1,
+            1, // 坐标系是坐标系1
+            400, // 延时400ms
+            0); // 向坐标系1的FIFO0缓存区传递该延时
+            // 第五段插补数据
+            rtn = GTN.mc.GTN_LnXY(1, 1, -100000, -173205, 100, 0.1, 0, 0);
+            // 缓存区数字量输出
+            rtn = GTN.mc.GTN_BufIO(1, 1, GTN.mc.MC_GPO, 0xffff, 0x55, 0);
+            // 缓存区延时指令
+            rtn = GTN.mc.GTN_BufDelay(1, 1, 100, 0);
+            // 第六段插补数据
+            rtn = GTN.mc.GTN_LnXY(1, 1, 100000, -173205, 100, 0.1, 0, 0);
+            // 第七段插补数据
+            rtn = GTN.mc.GTN_LnXY(1, 1, 200000, 0, 100, 0.1, 0, 0);
+            // 查询坐标系1的FIFO0所剩余的空间
+            rtn = GTN.mc.GTN_CrdSpace(1, 1, out space, 0);
+            // 启动坐标系1的FIFO0的插补运动
+            rtn = GTN.mc.GTN_CrdStart(1, 1, 0); 
+        }
+
+        private void BUTTON_CLOSE_Click(object sender, EventArgs e)
+        {
+            rtn = GTN.mc.GTN_Stop(1, 0xFFF, 0xFFF); 
+        }
+
+        private void BUTTON_PTP_Click(object sender, EventArgs e)
+        {
+            short axis = Convert.ToInt16(COMBOBOX_AXISNUM.TabIndex + 1);
+            GTN.mc.TTrapPrm trap;
+
+            rtn = GTN.mc.GTN_PrfTrap(1, 1);
+            rtn = GTN.mc.GTN_GetTrapPrm(1, 1, out trap);
+            trap.acc = 0.5;
+            trap.dec = 0.5;
+            trap.smoothTime = 50;
+            rtn = GTN.mc.GTN_SetTrapPrm(1, 1, ref trap);
+            rtn = GTN.mc.GTN_SetVel(1, 1, 50);
+            rtn = GTN.mc.GTN_SetPos(1, 1, 100000);
+
+            rtn = GTN.mc.GTN_Update(1, 1 << (1 - 1));
+            rtn = GTN.mc.GTN_PrfTrap(1, 4);
+            rtn = GTN.mc.GTN_GetTrapPrm(1, 4, out trap);
+            trap.acc = 0.5;
+            trap.dec = 0.5;
+            trap.smoothTime = 50;
+            rtn = GTN.mc.GTN_SetTrapPrm(1, 4, ref trap);
+            rtn = GTN.mc.GTN_SetVel(1, 4, 50);
+            rtn = GTN.mc.GTN_SetPos(1, 4, 100000);
+
+            rtn = GTN.mc.GTN_Update(1, 1 << (4 - 1));
+        }
+
+        private void BUTTON_HOME_Click(object sender, EventArgs e)
+        {
+            //程序演示了对第一轴进行回原点的操作，用户可以同时完成多个轴的回原点操作。
+            GTN.mc.THomePrm homeprm;
+
+            rtn = GTN.mc.GTN_GetHomePrm(1, 1, out homeprm);//获取当前轴的回原点的参数
+            homeprm.mode = 20;//home回原点模式
+            homeprm.moveDir = 1;//1：正方向，-1：负方向
+            homeprm.indexDir = 1;//1：正方向，-1：负方向
+            homeprm.edge = 0;//设置捕获沿：0-下降沿，1-上升沿
+            homeprm.velHigh = 10;
+            homeprm.velLow = 1;
+            homeprm.acc = 0.5;
+            homeprm.dec = 0.5;
+            homeprm.homeOffset = 0;//最终的停止位置相对于原点的偏移量
+            homeprm.searchHomeDistance = 0;//Home最大搜索距离，0表示不限制搜索距离
+            homeprm.searchIndexDistance = 20000;//Index最大搜索距离，0表示不限制搜索距离
+            homeprm.escapeStep = 1000;//采用限位回原点时，反方向离开限位的脱离步长
+
+            rtn = GTN.mc.GTN_GoHome(1, 1, ref homeprm);//启动快速回原点
+        }
+
+        private void BUTTON_NJOG_Click(object sender, EventArgs e)
+        {
+            if(m_btnState)
+            {
+                GTN.mc.TJogPrm jog;
+                rtn = GTN.mc.GTN_PrfJog(1, 1);
+                rtn = GTN.mc.GTN_GetJogPrm(1, 1, out jog);
+                jog.acc = 0.5;
+                jog.dec = 0.5;
+                // 设置 Jog 运动参数
+                rtn = GTN.mc.GTN_SetJogPrm(1, 1, ref jog);
+                rtn = GTN.mc.GTN_SetVel(1, 1, -200);
+                rtn = GTN.mc.GTN_Update(1, 1 << (1 - 1));
+            }
+            else
+            {
+                rtn = GTN.mc.GTN_Stop(1, 0xff, 0xff);
+                m_btnState = !m_btnState;
+            }
+            
+
+        }
+
+       
+    }
+}

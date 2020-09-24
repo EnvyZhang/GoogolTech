@@ -1,0 +1,22 @@
+EtherCAT: Googol Technology ECAT Master driver 1.0
+EtherCAT: 1 master waiting for devices.
+EtherCAT 0: 1 slave(s) responding.
+EtherCAT 0: Slave states: SAFEOP  + ERROR.
+EtherCAT 0: Scanning bus.
+EtherCAT 0: Bus scanning completed in 259 ms.
+Config INFO: Start Config 1 ECAT slave.
+EtherCAT 0: Config each slave SDO config info ...
+EtherCAT 0: Config each slave PDO sync info ...
+EtherCAT 0: Registering PDO entries...
+EtherCAT 0: Activating master...
+EtherCAT 0: Slave states: PREOP .
+EtherCAT WARNING 0-0: Slave does not support assigning PDOs!
+EtherCAT WARNING 0-0: Currently assigned PDOs: 0x1600 0x1610 0x1620 0x1630. PDOs to assign: 0x1600
+EtherCAT WARNING 0-0: Slave does not support assigning PDOs!
+EtherCAT WARNING 0-0: Currently assigned PDOs: 0x1A00 0x1A10 0x1A20 0x1A30. PDOs to assign: 0x1A00
+EtherCAT ERROR 0-0: Failed to set SAFEOP state, slave refused state change (PREOP + ERROR).
+EtherCAT ERROR 0-0: AL status message 0x001E: "Invalid input configuration".
+EtherCAT 0-0: Acknowledged state PREOP.
+EtherCAT ERROR 0-0: Failed to set OP state, slave refused state change (PREOP + ERROR).
+EtherCAT ERROR 0-0: AL status message 0x0011: "Invalid requested state change".
+EtherCAT 0-0: Acknowledged state PREOP.

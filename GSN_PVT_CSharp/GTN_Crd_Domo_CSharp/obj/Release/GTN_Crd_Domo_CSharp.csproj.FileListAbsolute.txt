@@ -1,0 +1,7 @@
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Release\GTN_Crd_Domo_CSharp.exe
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\bin\Release\GTN_Crd_Domo_CSharp.pdb
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Release\GTN_Crd_Domo_CSharp.Form1.resources
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Release\GTN_Crd_Domo_CSharp.Properties.Resources.resources
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Release\GTN_Crd_Domo_CSharp.csproj.GenerateResource.Cache
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Release\GTN_Crd_Domo_CSharp.exe
+F:\个人工作目录\zhang.jw\GSN\GTN_Crd_Domo_CSharp\GTN_Crd_Domo_CSharp\obj\Release\GTN_Crd_Domo_CSharp.pdb

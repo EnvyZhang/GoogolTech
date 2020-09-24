@@ -1,0 +1,293 @@
+// CompareOutPutDlg.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "CompareOutPut.h"
+#include "CompareOutPutDlg.h"
+#include "gts.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+#pragma comment(lib,"gts.lib")
+
+// CAboutDlg dialog used for App About
+
+class CAboutDlg : public CDialog
+{
+public:
+	CAboutDlg();
+
+// Dialog Data
+	enum { IDD = IDD_ABOUTBOX };
+
+	protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+// Implementation
+protected:
+	DECLARE_MESSAGE_MAP()
+};
+
+CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+{
+}
+
+void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
+END_MESSAGE_MAP()
+
+
+// CCompareOutPutDlg dialog
+
+
+
+
+CCompareOutPutDlg::CCompareOutPutDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(CCompareOutPutDlg::IDD, pParent)
+{
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+}
+
+void CCompareOutPutDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(CCompareOutPutDlg, CDialog)
+	ON_WM_SYSCOMMAND()
+	ON_WM_PAINT()
+	ON_WM_QUERYDRAGICON()
+	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_BUTTON_OPEN, &CCompareOutPutDlg::OnBnClickedButtonOpen)
+	ON_BN_CLICKED(IDC_BUTTON_1CRD, &CCompareOutPutDlg::OnBnClickedButton1crd)
+	ON_BN_CLICKED(IDC_BUTTON_2CRD, &CCompareOutPutDlg::OnBnClickedButton2crd)
+	ON_WM_TIMER()
+END_MESSAGE_MAP()
+
+
+// CCompareOutPutDlg message handlers
+
+BOOL CCompareOutPutDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+	SetTimer(1,10,NULL);
+	// Add "About..." menu item to system menu.
+
+	// IDM_ABOUTBOX must be in the system command range.
+	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
+	ASSERT(IDM_ABOUTBOX < 0xF000);
+
+	CMenu* pSysMenu = GetSystemMenu(FALSE);
+	if (pSysMenu != NULL)
+	{
+		CString strAboutMenu;
+		strAboutMenu.LoadString(IDS_ABOUTBOX);
+		if (!strAboutMenu.IsEmpty())
+		{
+			pSysMenu->AppendMenu(MF_SEPARATOR);
+			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
+		}
+	}
+
+	// Set the icon for this dialog.  The framework does this automatically
+	//  when the application's main window is not a dialog
+	SetIcon(m_hIcon, TRUE);			// Set big icon
+	SetIcon(m_hIcon, FALSE);		// Set small icon
+
+	// TODO: Add extra initialization here
+
+	return TRUE;  // return TRUE  unless you set the focus to a control
+}
+
+void CCompareOutPutDlg::OnSysCommand(UINT nID, LPARAM lParam)
+{
+	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
+	{
+		CAboutDlg dlgAbout;
+		dlgAbout.DoModal();
+	}
+	else
+	{
+		CDialog::OnSysCommand(nID, lParam);
+	}
+}
+
+// If you add a minimize button to your dialog, you will need the code below
+//  to draw the icon.  For MFC applications using the document/view model,
+//  this is automatically done for you by the framework.
+
+void CCompareOutPutDlg::OnPaint()
+{
+	if (IsIconic())
+	{
+		CPaintDC dc(this); // device context for painting
+
+		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+
+		// Center icon in client rectangle
+		int cxIcon = GetSystemMetrics(SM_CXICON);
+		int cyIcon = GetSystemMetrics(SM_CYICON);
+		CRect rect;
+		GetClientRect(&rect);
+		int x = (rect.Width() - cxIcon + 1) / 2;
+		int y = (rect.Height() - cyIcon + 1) / 2;
+
+		// Draw the icon
+		dc.DrawIcon(x, y, m_hIcon);
+	}
+	else
+	{
+		CDialog::OnPaint();
+	}
+}
+
+// The system calls this function to obtain the cursor to display while the user drags
+//  the minimized window.
+HCURSOR CCompareOutPutDlg::OnQueryDragIcon()
+{
+	return static_cast<HCURSOR>(m_hIcon);
+}
+
+
+void CCompareOutPutDlg::OnBnClickedButtonOpen()
+{
+	short rtn;
+	rtn = GT_Open(0);							 // 打开运动控制器
+	rtn = GT_Reset(0);							 // 复位运动控制器
+	rtn = GT_LoadConfig(0,"test.cfg");			 // 下载控制器配置文件
+	rtn = GT_ClrSts(0, 1, 4);					 // 清除1~4轴的轴状态
+	for(short i=1;i<=4;++i)
+	{
+		rtn = GT_AxisOn(0, i);					 // 使能运动轴
+	}
+	rtn = GT_ZeroPos(0, 1, 4);
+}
+
+void CCompareOutPutDlg::OnBnClickedButton1crd()
+{
+	short rtn;
+	short AXIS = 1;
+	T2DComparePrm prm;
+	rtn = GT_2DCompareMode(0,0,COMPARE2D_MODE_1D);   //使用二维位置比较的1维模式
+	prm.encx = 1;			//1维模式时，这个值没有用，但是必须是一个非0值
+	prm.ency = 1;			//以1轴作为比较源
+	prm.maxerr = 3;			 //最大误差pulse
+	prm.outputType = 0;		//输出脉冲
+	prm.source = 0;			//内部脉冲计数器
+	prm.startLevel = 0;		//设置初始电平
+	prm.threshold = 0;		//最优点计算阈值，用户无需关心，取0
+	prm.time = 500;			//脉冲宽度us
+	rtn=GT_2DCompareSetPrm(0,0,&prm);
+	rtn = GT_2DCompareMode(0,1,COMPARE2D_MODE_1D);	//使用二维位置比较的1维模式
+
+	T2DCompareData databuf[5];
+	databuf[0].px = 0;
+	databuf[0].py = 10000;
+	databuf[0].px = 0;
+	databuf[0].py = 20000;
+	rtn = GT_2DCompareData(0,0,2,databuf,0); //设置比较数据，只需设置y的数据，x的数据取0
+
+	rtn = GT_2DCompareStart(0,0);
+
+	//点位运动
+	TTrapPrm trap;
+	rtn = GT_PrfTrap(0,AXIS);					//设置成点位模式
+	rtn = GT_GetTrapPrm(0,AXIS, &trap);			// 读取点位运动参数
+	trap.acc = 0.25;
+	trap.dec = 0.125;
+	trap.smoothTime = 25;						
+	rtn = GT_SetTrapPrm(0,AXIS, &trap);			// 设置点位运动参数
+	rtn = GT_SetPos(0,AXIS, 20000L);				// 设置AXIS轴的目标位置
+	rtn = GT_SetVel(0,AXIS, 50);					// 设置AXIS轴的目标速度
+	rtn = GT_Update(0,1<<(AXIS-1));				// 启动AXIS轴的运动
+
+}
+
+void CCompareOutPutDlg::OnBnClickedButton2crd()
+{
+	short rtn;
+	T2DCompareData databuf[3] ;  //二维位置比较输出数据
+	T2DComparePrm prm;			 //二维位置比较输出参数
+	rtn = GT_2DCompareClear(0, 0);                 //清空二维位置比较输出数据
+	rtn = GT_2DCompareMode(0, 0,  //通道号 0： HSIO0 通道号 1： HSIO1
+		COMPARE2D_MODE_2D);	 //启动二维比较输出模块，为二维位置比较方式
+	prm.encx=1;     							 //1关联比较轴x
+	prm.ency=2;     							 //2关联比较轴y
+	prm.maxerr=300; 							 //最大允许误差(单位:pulse)
+	prm.outputType=0;							 //输出类型: 0脉冲;1电平
+	prm.source=1;   							 //比较源:0规划,1编码器
+	prm.startLevel=0;							 //初始电平是否反转：0复位电平，1反转
+	prm.threshold=0;							 //最优算法阈值
+	prm.time=500;   							 //脉冲宽度(单位us)
+	rtn = GT_2DCompareSetPrm(0, 0,                 //通道号 0： HSIO0 通道号 1： HSIO1
+		&prm);                                   
+	databuf[0].px = 10000;                       //第一比较点(10000,10000)
+	databuf[0].py = 10000;
+	databuf[1].px = 20000;                       //第二比较点(20000,20000)
+	databuf[1].py = 20000;
+	databuf[2].px = 35000;                       //第三比较点(35000,50000)
+	databuf[2].py = 35000;
+	rtn = GT_2DCompareData(0, 0,		// 通道0
+		3,					// 需要进行比较的数据个数
+		databuf,			// 数据数组地址
+		0);					// 使用FIFO0
+	rtn = GT_2DCompareStart(0, 0);   //启动位置比较输出
+
+	//建立坐标系
+	long space;
+	TCrdPrm crdPrm;
+	memset(&crdPrm,0,sizeof(crdPrm));
+	crdPrm.dimension = 2;              			 // 建立二维的坐标系
+	crdPrm.synVelMax = 500;            			 // 坐标系的最大合成速度是: 500 pulse/ms
+	crdPrm.synAccMax = 2;              			 // 坐标系的最大合成加速度是: 2 pulse/ms^2
+	crdPrm.evenTime = 0;               			 // 坐标系的最小匀速时间为0
+	crdPrm.profile[0] = 1;             			 // 规划器1对应到X轴                       
+	crdPrm.profile[1] = 2;             			 // 规划器2对应到Y轴                     
+	crdPrm.setOriginFlag = 1;          			 // 需要设置加工坐标系原点位置
+	crdPrm.originPos[0] = 0;           			 // 加工坐标系原点位置在(0,0)，即与机床坐标系原点重合
+	crdPrm.originPos[1] = 0;
+	rtn = GT_SetCrdPrm(0, 1, &crdPrm);
+	rtn = GT_CrdClear(0, 1, 0);          		 // 即将把数据存入坐标系1的FIFO0中，所以要首先清除此缓存区中的数据
+	rtn = GT_LnXY(0, 
+		1,							   			 // 该插补段的坐标系是坐标系1
+		10000, 10000,				   			 // 该插补段的终点坐标(30000, 30000)
+		100,						   			 // 该插补段的目标速度：100pulse/ms
+		0.1,						   			 // 插补段的加速度：0.1pulse/ms^2
+		100,									 // 终点速度为100
+		0);						 	   			 // 向坐标系1的FIFO0缓存区传递该直线插补数据
+	rtn = GT_LnXY(0, 1, 35000, 35000, 100,
+		0.1, 0, 0);
+	rtn = GT_CrdSpace(0, 1, &space, 0);			// 查询坐标系1的FIFO0所剩余的空间
+	rtn = GT_CrdStart(0, 1, 0);					// 启动坐标系1的FIFO0的插补运动
+}
+
+void CCompareOutPutDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: Add your message handler code here and/or call default
+	short rtn;
+	short pStatus, pFifo, pFifoCount, pBufCount;
+	long pCount;
+	double prfPos[4];
+	CString strTemp;
+	rtn = GT_GetPrfPos(0,1,prfPos,4,NULL);           // 读1~4轴的规划位置
+	rtn = GT_2DCompareStatus(0, 0, &pStatus, &pCount, &pFifo, &pFifoCount, 0);
+
+	strTemp.Format(_T("%.3f"),prfPos[0]);
+	SetDlgItemText(IDC_STATIC_PRFPOS_X,strTemp);
+	strTemp.Format(_T("%.3f"),prfPos[1]);
+	SetDlgItemText(IDC_STATIC_PRFPOS_Y,strTemp);
+
+	if (pStatus==0){ strTemp.Format(_T("正在比较")); }
+	else {strTemp.Format(_T("比较完成"));}
+	SetDlgItemText(IDC_STATIC_Status,strTemp);
+
+	strTemp.Format(_T("%ld"),pCount);
+	SetDlgItemText(IDC_STATIC_Count,strTemp);
+
+	CDialog::OnTimer(nIDEvent);
+}

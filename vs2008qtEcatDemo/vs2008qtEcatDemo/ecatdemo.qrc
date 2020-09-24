@@ -1,0 +1,39 @@
+<RCC>
+    <qresource prefix="/EcatDemo">
+        <file>Resources/HM_1.png</file>
+        <file>Resources/HM_2.png</file>
+        <file>Resources/HM_3.png</file>
+        <file>Resources/HM_4.png</file>
+        <file>Resources/HM_5.png</file>
+        <file>Resources/HM_6.png</file>
+        <file>Resources/HM_7.png</file>
+        <file>Resources/HM_8.png</file>
+        <file>Resources/HM_9.png</file>
+        <file>Resources/HM_10.png</file>
+        <file>Resources/HM_11.png</file>
+        <file>Resources/HM_12.png</file>
+        <file>Resources/HM_13.png</file>
+        <file>Resources/HM_14.png</file>
+        <file>Resources/HM_17.png</file>
+        <file>Resources/HM_18.png</file>
+        <file>Resources/HM_19.png</file>
+        <file>Resources/HM_20.png</file>
+        <file>Resources/HM_21.png</file>
+        <file>Resources/HM_22.png</file>
+        <file>Resources/HM_23.png</file>
+        <file>Resources/HM_24.png</file>
+        <file>Resources/HM_25.png</file>
+        <file>Resources/HM_26.png</file>
+        <file>Resources/HM_27.png</file>
+        <file>Resources/HM_28.png</file>
+        <file>Resources/HM_29.png</file>
+        <file>Resources/HM_30.png</file>
+        <file>Resources/HM_33.png</file>
+        <file>Resources/HM_34.png</file>
+        <file>Resources/HM_35.png</file>
+        <file>Resources/backward.jpg</file>
+        <file>Resources/forward.jpg</file>
+        <file>vs2008qtecatdemo_zh.ts</file>
+        <file>vs2008qtecatdemo_zh.qm</file>
+    </qresource>
+</RCC>
